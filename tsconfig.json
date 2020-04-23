@@ -1,0 +1,56 @@
+{
+  "extends": "./tsconfig.paths.json",
+  "compilerOptions": {
+    "target": "es2017",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "alwaysStrict": true,
+    "noImplicitAny": false,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "preserve",
+    "outDir": "./dist",
+    "module": "esnext",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "@types"
+    ],
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin",
+        "alwaysShowRuleFailuresAsWarnings": true,
+        "suppressWhileTypeErrorsPresent": false
+      }
+    ],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "webworker"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "isolatedModules": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "scripts",
+    "acceptance-tests",
+    "webpack.config.js",
+    "jest",
+    "src/setupTests.ts",
+    "src/resources/",
+    "src/**/*.css",
+    "config"
+  ]
+}

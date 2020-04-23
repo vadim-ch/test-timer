@@ -1,0 +1,21 @@
+{
+  "extends": ["tslint:latest", "tslint-react", "prettier"],
+  "rules": {
+    "quotemark": [true, "single", "jsx-double"],
+    "object-literal-sort-keys": false,
+    "no-submodule-imports": false,
+    "ordered-imports": true,
+    "no-implicit-dependencies": false,
+    "jsx-wrap-multiline": false,
+    "jsx-no-multiline-js": false,
+    "jsx-boolean-value": false,
+    "jsx-key": false,
+    "object-literal-key-quotes": [true, "as-needed"],
+    "import/no-webpack-loader-syntax": ["off"]
+  },
+  "linterOptions": {
+    "exclude": [
+      "**/*.js"
+    ]
+  }
+}
