@@ -6,7 +6,7 @@ import { Interval } from '../../components/interval';
 
 let timerId: number;
 
-export const Timer: React.FC = () => {
+export const Timer: React.FC = React.memo(() => {
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [startTime, setStartTime] = useState<number>(0);
   const [{value: currentInterval}, dispatch] = useReducer(intervalReducer, initialIntervalState);
@@ -68,4 +68,4 @@ export const Timer: React.FC = () => {
       </div>
     </div>
   );
-};
+});

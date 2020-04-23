@@ -6,7 +6,7 @@ interface IIntervalProps {
   decreaseInterval: () => void;
 }
 
-export const Interval: React.FC<IIntervalProps> = ({ currentInterval, increaseInterval, decreaseInterval }) => {
+export const Interval: React.FC<IIntervalProps> = React.memo(({ currentInterval, increaseInterval, decreaseInterval }) => {
   const isDecAvailable = currentInterval > 0;
   return (
     <div>
@@ -17,4 +17,4 @@ export const Interval: React.FC<IIntervalProps> = ({ currentInterval, increaseIn
        </span>
     </div>
   );
-};
+});
