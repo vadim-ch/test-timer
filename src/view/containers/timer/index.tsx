@@ -1,90 +1,71 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { IState } from '../../../store/reducers';
-import { getCurrentInterval } from '../../../store/reducers/timer/selectors';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
+import { changeInterval } from '../../../store/actions/change-interval';
+import { initialIntervalState, intervalReducer } from '../../../store/reducers/timer';
 import { getSecondsDifferenceOfDate } from '../../../utils';
-import Interval from '../interval';
+import { Interval } from '../../components/interval';
 
-interface ITimerProps {
-  currentInterval: number;
-}
+let timerId: number;
 
-interface ITimerState {
-  currentTime:  number;
-  startTime:  number;
-}
+export const Timer: React.FC = () => {
+  const [currentTime, setCurrentTime] = useState<number>(0);
+  const [startTime, setStartTime] = useState<number>(0);
+  const [{value: currentInterval}, dispatch] = useReducer(intervalReducer, initialIntervalState);
+  const isControlAvailable = currentInterval > 0;
 
-class Timer extends React.PureComponent<ITimerProps, ITimerState> {
-  private timerId: any;
-  constructor(props: ITimerProps) {
-    super(props);
+  const decreaseInterval = useCallback(() => {
+    dispatch(changeInterval(-1))
+  }, []);
 
-    this.state = {
-      currentTime: 0,
-      startTime: 0,
-    };
+  const increaseInterval = useCallback(() => {
+    dispatch(changeInterval(1))
+  }, []);
 
-    this.handleStart = this.handleStart.bind(this);
-    this.handleStop = this.handleStop.bind(this);
-    this.startTimer = this.startTimer.bind(this);
-    this.handleTick = this.handleTick.bind(this);
-  }
+  const handleTick = useCallback(() => {
+    setCurrentTime(getSecondsDifferenceOfDate(startTime));
+  }, [startTime]);
 
-  public render(): React.ReactElement {
-    const { currentInterval } = this.props;
-    const { currentTime } = this.state;
-    const isControlAvailable = currentInterval > 0;
-
-    return (
-      <div>
-        <Interval />
-        <div>
-          Секундомер: {currentTime} сек.
-        </div>
-        <div>
-          <button disabled={!isControlAvailable} onClick={this.handleStart}>Старт</button>
-          <button disabled={!isControlAvailable} onClick={this.handleStop}>Стоп</button>
-        </div>
-      </div>
-    );
-  }
-
-  private handleStart(): void {
-    const { currentInterval } = this.props;
-    if (currentInterval > 0) {
-      this.setState({
-        startTime: Date.now(),
-      });
-      this.startTimer(this.handleTick);
+  const handleStart = useCallback(() => {
+    if (isControlAvailable) {
+      setStartTime(Date.now());
     }
-  }
+  }, [currentInterval]);
 
-  private handleTick(): void {
-    const { startTime } = this.state;
-    this.setState({
-      currentTime: getSecondsDifferenceOfDate(startTime),
-    });
-  }
-
-  private startTimer(handleTick: () => void): void {
-    const { currentInterval } = this.props;
-    this.timerId = setTimeout(() => {
-      clearTimeout(this.timerId);
+  const startTimer = useCallback(() => {
+    timerId = +setTimeout(() => {
+      clearTimeout(timerId);
       handleTick();
-      this.startTimer(handleTick);
+      startTimer();
     }, currentInterval * 1000);
-  }
+  }, [currentInterval, startTime]);
 
-  private handleStop(): void {
-    clearTimeout(this.timerId);
-    this.setState({
-      currentTime: 0,
-    });
-  }
-}
+  const handleStop = useCallback(() => {
+    setStartTime(0);
+    setCurrentTime(0);
+  }, []);
 
-const mapStateToProps = (state: IState) => ({
-  currentInterval: getCurrentInterval(state)
-});
+  useEffect(() => {
+    if (startTime > 0) {
+      clearTimeout(timerId);
+      startTimer();
+    } else {
+      clearTimeout(timerId);
+    }
+  }, [startTime, currentInterval]);
 
-export default connect(mapStateToProps)(Timer);
+  return (
+    <div>
+      <Interval
+        currentInterval={currentInterval}
+        increaseInterval={increaseInterval}
+        decreaseInterval={decreaseInterval}
+      />
+      <div>
+        Секундомер: {currentTime} сек.
+      </div>
+      <div>
+        <button disabled={!isControlAvailable} onClick={handleStart}>Старт</button>
+        <button disabled={!isControlAvailable} onClick={handleStop}>Стоп</button>
+      </div>
+    </div>
+  );
+};

@@ -1,3 +1,4 @@
 export const getSecondsDifferenceOfDate = (date: number): number => {
-  return Math.floor((Date.now() - date) / 1000)
+  const diff = Date.now() - date;
+  return Math.floor(diff / 1000)
 };
