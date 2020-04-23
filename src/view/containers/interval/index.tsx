@@ -6,17 +6,20 @@ import { getCurrentInterval } from '../../../store/reducers/timer/selectors';
 
 interface IIntervalProps {
   currentInterval: number;
-  changeInterval: (value: number) => void;
+  increaseInterval: () => void;
+  decreaseInterval: () => void;
 }
 
-class Interval extends React.Component<IIntervalProps, {}> {
+class Interval extends React.PureComponent<IIntervalProps, {}> {
   render(): React.ReactElement {
+    const { currentInterval, increaseInterval, decreaseInterval } = this.props;
+    const isDecAvailable = currentInterval > 0;
     return (
       <div>
-        <span>Интервал обновления секундомера: {this.props.currentInterval} сек.</span>
+        <span>Интервал обновления секундомера: {currentInterval} сек.</span>
         <span>
-         <button onClick={() => this.props.changeInterval(-1)}>-</button>
-         <button onClick={() => this.props.changeInterval(1)}>+</button>
+         <button disabled={!isDecAvailable} onClick={isDecAvailable ? decreaseInterval : undefined}>-</button>
+         <button onClick={increaseInterval}>+</button>
        </span>
       </div>
     );
@@ -24,6 +27,9 @@ class Interval extends React.Component<IIntervalProps, {}> {
 }
 
 const mapStateToProps = (state: IState) => ({ currentInterval: getCurrentInterval(state) });
-const mapDispatchToProps = (dispatch: any) => ({ changeInterval: (value: number) => dispatch(changeInterval(value)) });
+const mapDispatchToProps = (dispatch: any) => ({
+  decreaseInterval: () => dispatch(changeInterval(-1)),
+  increaseInterval: () => dispatch(changeInterval(1))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Interval);
