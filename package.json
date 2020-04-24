@@ -2,6 +2,7 @@
   "name": "test-timer",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://vadim-ch.github.io/test-timer/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
