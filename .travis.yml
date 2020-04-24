@@ -11,9 +11,9 @@ script:
 
 deploy:
   provider: pages
-  github-token: $GITHUB_TOKEN
-  committer-from-gh: true
-  cleanup: true
-  local-dir: build
+  token: $GITHUB_TOKEN
+  committer_from_gh: true
+  skip_cleanup: true
+  local_dir: build
   on:
     branch: master
