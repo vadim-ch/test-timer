@@ -1,13 +1,10 @@
 language: node_js
 node_js:
-  - '12.9'
+  - "stable"
 
 cache:
   directories:
     - "node_modules"
-
-install:
-  - npm install
 
 script:
   - npm run build
@@ -16,7 +13,7 @@ deploy:
   provider: pages
   github-token: $GITHUB_TOKEN
   committer-from-gh: true
-  skip-cleanup: true
+  cleanup: true
   local-dir: build
   on:
     branch: master
