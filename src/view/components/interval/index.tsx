@@ -1,4 +1,7 @@
 import React from 'react';
+import { Button } from '../common/button';
+import { ButtonGroup } from '../common/elements';
+import { IntervalBox, IntervalTitle, IntervalValue } from './elements';
 
 interface IIntervalProps {
   currentInterval: number;
@@ -9,12 +12,12 @@ interface IIntervalProps {
 export const Interval: React.FC<IIntervalProps> = React.memo(({ currentInterval, increaseInterval, decreaseInterval }) => {
   const isDecAvailable = currentInterval > 0;
   return (
-    <div>
-      <span>Интервал обновления секундомера: {currentInterval} сек.</span>
-      <span>
-         <button disabled={!isDecAvailable} onClick={isDecAvailable ? decreaseInterval : undefined}>-</button>
-         <button onClick={increaseInterval}>+</button>
-       </span>
-    </div>
+    <IntervalBox>
+      <IntervalTitle>Интервал обновления секундомера: <IntervalValue>{currentInterval}</IntervalValue> сек.</IntervalTitle>
+      <ButtonGroup>
+         <Button color="blue" disabled={!isDecAvailable} onClick={isDecAvailable ? decreaseInterval : undefined}>-</Button>
+         <Button color="blue" onClick={increaseInterval}>+</Button>
+       </ButtonGroup>
+    </IntervalBox>
   );
 });

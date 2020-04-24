@@ -2,7 +2,10 @@ import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { changeInterval } from '../../../store/actions/change-interval';
 import { initialIntervalState, intervalReducer } from '../../../store/reducers/timer';
 import { getSecondsDifferenceOfDate } from '../../../utils';
+import { Button } from '../../components/common/button';
+import { ButtonGroup } from '../../components/common/elements';
 import { Interval } from '../../components/interval';
+import { StopwatchBox, StopwatchValue, TimerBox, TimerContainer } from './elements';
 
 let timerId: number;
 
@@ -11,6 +14,7 @@ export const Timer: React.FC = React.memo(() => {
   const [startTime, setStartTime] = useState<number>(0);
   const [{value: currentInterval}, dispatch] = useReducer(intervalReducer, initialIntervalState);
   const isControlAvailable = currentInterval > 0;
+  const isStarted = startTime > 0;
 
   const decreaseInterval = useCallback(() => {
     dispatch(changeInterval(-1))
@@ -53,19 +57,21 @@ export const Timer: React.FC = React.memo(() => {
   }, [startTime, currentInterval]);
 
   return (
-    <div>
-      <Interval
-        currentInterval={currentInterval}
-        increaseInterval={increaseInterval}
-        decreaseInterval={decreaseInterval}
-      />
-      <div>
-        Секундомер: {currentTime} сек.
-      </div>
-      <div>
-        <button disabled={!isControlAvailable} onClick={handleStart}>Старт</button>
-        <button disabled={!isControlAvailable} onClick={handleStop}>Стоп</button>
-      </div>
-    </div>
+    <TimerBox>
+      <TimerContainer>
+        <Interval
+          currentInterval={currentInterval}
+          increaseInterval={increaseInterval}
+          decreaseInterval={decreaseInterval}
+        />
+        <StopwatchBox>
+          Секундомер: <StopwatchValue>{currentTime}</StopwatchValue> сек.
+        </StopwatchBox>
+        <ButtonGroup>
+          <Button disabled={!isControlAvailable || isStarted} onClick={handleStart}>Старт</Button>
+          <Button disabled={!isControlAvailable || !isStarted} onClick={handleStop}>Стоп</Button>
+        </ButtonGroup>
+      </TimerContainer>
+    </TimerBox>
   );
 });
