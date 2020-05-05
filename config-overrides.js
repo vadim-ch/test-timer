@@ -13,7 +13,7 @@ module.exports = function override(config, env) {
                 include: './build',
                 ignoreFile: '.sentrycliignore',
                 ignore: ['node_modules', 'webpack.config.js'],
-                urlPrefix: '~/',
+                urlPrefix: '~/test-timer',
                 // dryRun: true,
                 // configFile: 'sentry.properties'
             }),
