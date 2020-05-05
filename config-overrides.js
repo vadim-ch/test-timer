@@ -10,7 +10,7 @@ module.exports = function override(config, env) {
             ...config.plugins,
             new SentryWebpackPlugin({
                 release: `react@${pkgJson.version}`,
-                include: '.',
+                include: './build',
                 ignoreFile: '.sentrycliignore',
                 ignore: ['node_modules', 'webpack.config.js'],
                 urlPrefix: '~/static/js',
