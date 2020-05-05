@@ -8,15 +8,15 @@ module.exports = function override(config, env) {
         ...config,
         plugins: [
             ...config.plugins,
-            new SentryWebpackPlugin({
-                release: `react@${pkgJson.version}`,
-                include: './build',
-                ignoreFile: '.sentrycliignore',
-                ignore: ['node_modules', 'webpack.config.js'],
-                urlPrefix: './build',
-                // dryRun: true,
-                // configFile: 'sentry.properties'
-            }),
+            // new SentryWebpackPlugin({
+            //     release: `react@${pkgJson.version}`,
+            //     include: './build',
+            //     ignoreFile: '.sentrycliignore',
+            //     ignore: ['node_modules', 'webpack.config.js'],
+            //     urlPrefix: './build',
+            //     // dryRun: true,
+            //     // configFile: 'sentry.properties'
+            // }),
             new webpack.DefinePlugin({
                 __VERSION__: JSON.stringify(pkgJson.version),
             })
