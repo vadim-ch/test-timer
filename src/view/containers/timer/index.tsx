@@ -45,7 +45,8 @@ export const Timer: React.FC = React.memo(() => {
   const handleStop = useCallback(() => {
     setStartTime(0);
     setCurrentTime(0);
-  }, []);
+    throw Error(`startTime - ${startTime}`);
+  }, [startTime]);
 
   useEffect(() => {
     if (startTime > 0) {
