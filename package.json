@@ -1,6 +1,6 @@
 {
   "name": "test-timer",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": true,
   "homepage": "https://vadim-ch.github.io/test-timer/",
   "dependencies": {
