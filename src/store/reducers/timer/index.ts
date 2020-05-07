@@ -5,7 +5,7 @@ export interface ITimerState {
 }
 
 export const initialIntervalState: ITimerState = {
-  value: 0,
+  value: 1,
 };
 
 export const intervalReducer = (state, action) => {

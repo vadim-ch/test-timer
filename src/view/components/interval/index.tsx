@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '../common/button';
-import { ButtonGroup } from '../common/elements';
-import { IntervalBox, IntervalTitle, IntervalValue } from './elements';
+import { ButtonGroup, IntervalTitle, IntervalValue } from '../common/elements';
+import { IntervalBox } from './elements';
 
 interface IIntervalProps {
   currentInterval: number;

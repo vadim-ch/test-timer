@@ -15,6 +15,7 @@
     "@types/react-dom": "^16.9.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-loader-spinner": "^3.1.14",
     "react-scripts": "2.1.8",
     "styled-components": "^5.1.0",
     "tslint": "^6.1.1",

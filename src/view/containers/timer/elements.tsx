@@ -7,6 +7,7 @@ export const TimerBox = styled.div`
 
 export const TimerContainer = styled.div`
   margin: auto;
+  width: 450px;
 `;
 
 export const StopwatchBox = styled.div`
@@ -16,4 +17,11 @@ export const StopwatchBox = styled.div`
 
 export const StopwatchValue = styled.span`
   font-size: 20px;
+`;
+
+export const SpinnerContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

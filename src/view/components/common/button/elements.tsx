@@ -27,6 +27,12 @@ export const ButtonBox = styled('button')`
           blue :
           props.color === 'red' ? red : ''
   };
+  
+  ${(props) => props.color === 'ghost' && `
+    color: ${blue};
+    width: auto;
+    padding: 0;
+  `}
 
   ${(props) =>
   props.disabled &&
