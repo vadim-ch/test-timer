@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/browser';
 import './index.css';
 import App from './view/app';
+import * as serviceWorker from './serviceWorker';
 
 Sentry.init({
   release: `react@${__VERSION__}`,
@@ -15,3 +16,5 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+serviceWorker.register();

@@ -4,8 +4,9 @@ import { initialIntervalState, intervalReducer } from '../../../store/reducers/t
 import { getSecondsDifferenceOfDate } from '../../../utils';
 import { Button } from '../../components/common/button';
 import { ButtonGroup } from '../../components/common/elements';
-import { Interval } from '../../components/interval';
 import { StopwatchBox, StopwatchValue, TimerBox, TimerContainer } from './elements';
+
+const Interval = React.lazy(() => import('../../components/interval'));
 
 let timerId: number;
 
@@ -45,8 +46,7 @@ export const Timer: React.FC = React.memo(() => {
   const handleStop = useCallback(() => {
     setStartTime(0);
     setCurrentTime(0);
-    throw Error(`startTime - ${startTime}`);
-  }, [startTime]);
+  }, []);
 
   useEffect(() => {
     if (startTime > 0) {
@@ -60,11 +60,13 @@ export const Timer: React.FC = React.memo(() => {
   return (
     <TimerBox>
       <TimerContainer>
-        <Interval
-          currentInterval={currentInterval}
-          increaseInterval={increaseInterval}
-          decreaseInterval={decreaseInterval}
-        />
+        <React.Suspense fallback={<div>spinner</div>}>
+          <Interval
+            currentInterval={currentInterval}
+            increaseInterval={increaseInterval}
+            decreaseInterval={decreaseInterval}
+          />
+        </React.Suspense>
         <StopwatchBox>
           Секундомер: <StopwatchValue>{currentTime}</StopwatchValue> сек.
         </StopwatchBox>

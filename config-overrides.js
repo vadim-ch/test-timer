@@ -3,12 +3,13 @@ const webpack = require('webpack');
 const pkgJson = require('./package');
 
 module.exports = function override(config, env) {
+    const isProduction = process.env.NODE_ENV === 'production';
     config = {
         ...config,
-        devtool: 'hidden-source-map',
+        devtool: isProduction ? 'hidden-source-map' : 'source-map',
         plugins: [
             ...config.plugins,
-            new SentryWebpackPlugin({
+            isProduction ? new SentryWebpackPlugin({
                 release: `react@${pkgJson.version}`,
                 include: './build',
                 ignoreFile: '.sentrycliignore',
@@ -16,7 +17,7 @@ module.exports = function override(config, env) {
                 urlPrefix: process.env.URL_PREFIX ? process.env.URL_PREFIX : '~/',
                 // dryRun: true,
                 // configFile: 'sentry.properties'
-            }),
+            }) : [],
             new webpack.DefinePlugin({
                 __VERSION__: JSON.stringify(pkgJson.version),
             })
