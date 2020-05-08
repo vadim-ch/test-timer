@@ -1,0 +1,1 @@
+{"version":3,"sources":["view/components/interval/elements.tsx"],"names":["IntervalBox","styled","div"],"mappings":"kPAEO,IAAMA,E,KAAcC,EAAOC,IAAV","file":"static/js/3.15b37e2b.chunk.js","sourcesContent":["import styled from 'styled-components';\n\nexport const IntervalBox = styled.div``;\n"],"sourceRoot":""}

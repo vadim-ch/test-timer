@@ -1,0 +1,1 @@
+(this["webpackJsonptest-timer"]=this["webpackJsonptest-timer"]||[]).push([[2],{52:function(e,t,n){"use strict";n.r(t);var s=n(0),a=n.n(s),c=n(182),r=n(27);test("renders app",(function(){var e=(0,Object(c.a)(a.a.createElement(r.default,null)).getByText)(/\u0421\u0435\u043a\u0443\u043d\u0434\u043e\u043c\u0435\u0440/i);expect(e).toBeInTheDocument()}))}}]);
