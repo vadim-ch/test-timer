@@ -1,5 +1,6 @@
 import React from 'react';
 import { store } from '../store';
+import { getWaitingRegistration } from '../store/reducers/service-worker/selectors';
 
 export const getSecondsDifferenceOfDate = (date: number): number => {
   const diff = Date.now() - date;
@@ -9,9 +10,9 @@ export const getSecondsDifferenceOfDate = (date: number): number => {
 export const loadableWithCatchError = path =>
   React.lazy(async () => {
     try {
-      const {sw: { registration }} = store.getState();
-      if (registration && registration.waiting) {
-        updateApp(registration);
+      const waitingRegistration = getWaitingRegistration(store.getState());
+      if (waitingRegistration) {
+        updateApp(waitingRegistration);
       } else {
         return await import(`../../src/view/${path}`);
       }
@@ -20,9 +21,9 @@ export const loadableWithCatchError = path =>
     }
   });
 
-export const updateApp = (registration) => {
-  registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-  registration.waiting.addEventListener('statechange', e => {
+export const updateApp = (waitingRegistration) => {
+  waitingRegistration.postMessage({ type: 'SKIP_WAITING' });
+  waitingRegistration.addEventListener('statechange', e => {
     // @ts-ignore
     if (e.target.state === 'activated') {
       window.location.reload();
