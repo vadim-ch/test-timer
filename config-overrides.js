@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const pkgJson = require('./package');
 
 module.exports = function override(config, env) {
-    const isProduction = process.env.NODE_ENV === 'production';
+    const isProduction = env === 'production';
     let plugins = [];
     if (isProduction) {
         plugins = [
