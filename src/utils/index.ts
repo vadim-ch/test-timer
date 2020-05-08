@@ -11,18 +11,21 @@ export const loadableWithCatchError = path =>
     try {
       const {sw: { registration }} = store.getState();
       if (registration && registration.waiting) {
-        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-        registration.waiting.addEventListener('statechange', e => {
-          // @ts-ignore
-          if (e.target.state === 'activated') {
-            window.location.reload();
-          }
-        });
+        updateApp(registration);
       } else {
         return await import(`../../src/view/${path}`);
       }
     } catch (e) {
-      // window.location.reload();
       return null;
     }
   });
+
+export const updateApp = (registration) => {
+  registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+  registration.waiting.addEventListener('statechange', e => {
+    // @ts-ignore
+    if (e.target.state === 'activated') {
+      window.location.reload();
+    }
+  });
+};
