@@ -78,7 +78,6 @@ function registerValidSW(swUrl: string, config?: Config) {
         if (installingWorker == null) {
           return;
         }
-        checkUpdates(registration);
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
@@ -107,6 +106,7 @@ function registerValidSW(swUrl: string, config?: Config) {
             }
           }
         };
+        checkUpdates(registration);
       };
     })
     .catch(error => {

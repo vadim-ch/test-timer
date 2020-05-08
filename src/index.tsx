@@ -21,6 +21,8 @@ serviceWorker.register({
   onUpdate(registration) {
     console.error('Обновить?');
     window['update'] = () => {
+      console.error(registration);
+      console.error(registration.waiting);
       if (registration.waiting) {
         registration.waiting.postMessage({ type: 'SKIP_WAITING' });
         registration.waiting.addEventListener('statechange', e => {
