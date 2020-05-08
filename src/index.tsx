@@ -22,7 +22,7 @@ serviceWorker.register({
     console.error('Обновить?');
     window['update'] = () => {
       if (registration.waiting) {
-        console.error('waiting true')
+        console.error('waiting true');
         registration.waiting.postMessage({ type: 'SKIP_WAITING' });
         registration.waiting.addEventListener('statechange', e => {
           // @ts-ignore
