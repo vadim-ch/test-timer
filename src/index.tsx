@@ -22,12 +22,10 @@ serviceWorker.register({
     console.error('Обновить?');
     window['update'] = () => {
       if (registration.waiting) {
-        console.error('waiting true');
         registration.waiting.postMessage({ type: 'SKIP_WAITING' });
         registration.waiting.addEventListener('statechange', e => {
           // @ts-ignore
           if (e.target.state === 'activated') {
-            console.error('activated true');
             window.location.reload();
           }
         });
