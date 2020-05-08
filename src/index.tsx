@@ -17,4 +17,19 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-serviceWorker.register();
+serviceWorker.register({
+  onUpdate(registration) {
+    console.error('Обновить?');
+    window['update'] = () => {
+      if (registration.waiting) {
+        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        registration.waiting.addEventListener('statechange', e => {
+          // @ts-ignore
+          if (e.target.state === 'activated') {
+            window.location.reload();
+          }
+        });
+      }
+    }
+  }
+});

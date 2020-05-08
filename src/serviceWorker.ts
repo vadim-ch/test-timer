@@ -25,6 +25,13 @@ type Config = {
   onUpdate?: (registration: ServiceWorkerRegistration) => void;
 };
 
+function checkUpdates(registration) {
+  setInterval(() => {
+    console.log('Check service worker updates');
+    registration.update();
+  }, Number(process.env.REACT_APP_UPDATE_INTERVAL) || 5000);
+}
+
 export function register(config?: Config) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
@@ -66,6 +73,7 @@ function registerValidSW(swUrl: string, config?: Config) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
+      checkUpdates(registration);
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
