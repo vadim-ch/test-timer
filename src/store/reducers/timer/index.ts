@@ -1,21 +1,24 @@
-import { CHANGE_INTERVAL } from '../../actions/change-interval';
+import { CHANGE_INTERVAL, ChangeIntervalAction } from '../../actions/change-interval';
 
 export interface ITimerState {
   value: number;
 }
 
-export const initialIntervalState: ITimerState = {
+export const initialState: ITimerState = {
   value: 1,
 };
 
-export const intervalReducer = (state, action) => {
+export const timer = (
+  state = initialState,
+  action: ChangeIntervalAction
+): ITimerState => {
   switch (action.type) {
     case CHANGE_INTERVAL:
       return {
         ...state,
-        value: state.value + action.payload,
+        value: state.value += action.payload,
       };
     default:
-      throw new Error();
+      return state
   }
 };

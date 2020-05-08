@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/browser';
 import './index.css';
+import { store } from './store';
+import { swUpdate } from './store/actions/sw-update';
 import App from './view/app';
 import * as serviceWorker from './serviceWorker';
 
@@ -18,18 +20,5 @@ ReactDOM.render(
 );
 
 serviceWorker.register({
-  onUpdate(registration) {
-    console.error('Обновить?');
-    window['update'] = () => {
-      if (registration.waiting) {
-        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-        registration.waiting.addEventListener('statechange', e => {
-          // @ts-ignore
-          if (e.target.state === 'activated') {
-            window.location.reload();
-          }
-        });
-      }
-    }
-  }
+  onUpdate: registration => store.dispatch(swUpdate(registration)),
 });

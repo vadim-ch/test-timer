@@ -1,34 +1,33 @@
-import React, { useCallback, useEffect, useReducer, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { changeInterval } from '../../../store/actions/change-interval';
-import { initialIntervalState, intervalReducer } from '../../../store/reducers/timer';
-import { getSecondsDifferenceOfDate } from '../../../utils';
+import { IState } from '../../../store/reducers';
+import { connect } from 'react-redux';
+import { getCurrentInterval } from '../../../store/reducers/timer/selectors';
+import { getSecondsDifferenceOfDate, loadableWithCatchError } from '../../../utils';
 import { Button } from '../../components/common/button';
 import { ButtonGroup, IntervalTitle, IntervalValue } from '../../components/common/elements';
 import { SpinnerContainer, StopwatchBox, StopwatchValue, TimerBox, TimerContainer } from './elements';
 import Loader from 'react-loader-spinner'
 
-const Interval = React.lazy(() => import('../../components/interval'));
+const Interval = loadableWithCatchError('components/interval');
 
 let timerId: number;
 
-export const Timer: React.FC = React.memo(() => {
+interface ITimerProps {
+  currentInterval: number;
+  increaseInterval: () => void;
+  decreaseInterval: () => void;
+}
+
+export const Timer: React.FC<ITimerProps> = React.memo(({currentInterval, increaseInterval, decreaseInterval}) => {
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [startTime, setStartTime] = useState<number>(0);
-  const [{value: currentInterval}, dispatch] = useReducer(intervalReducer, initialIntervalState);
   const [isIntervalVisible, setVisible] = useState(false);
   const isControlAvailable = currentInterval > 0;
   const isStarted = startTime > 0;
 
   const showInterval = useCallback(() => {
     setVisible(true);
-  }, []);
-
-  const decreaseInterval = useCallback(() => {
-    dispatch(changeInterval(-1))
-  }, []);
-
-  const increaseInterval = useCallback(() => {
-    dispatch(changeInterval(1))
   }, []);
 
   const handleTick = useCallback(() => {
@@ -39,7 +38,7 @@ export const Timer: React.FC = React.memo(() => {
     if (isControlAvailable) {
       setStartTime(Date.now());
     }
-  }, [currentInterval]);
+  }, [isControlAvailable]);
 
   const startTimer = useCallback(() => {
     timerId = +setTimeout(() => {
@@ -47,7 +46,7 @@ export const Timer: React.FC = React.memo(() => {
       handleTick();
       startTimer();
     }, currentInterval * 1000);
-  }, [currentInterval, startTime]);
+  }, [currentInterval, handleTick]);
 
   const handleStop = useCallback(() => {
     setStartTime(0);
@@ -61,7 +60,7 @@ export const Timer: React.FC = React.memo(() => {
     } else {
       clearTimeout(timerId);
     }
-  }, [startTime, currentInterval]);
+  }, [startTime, currentInterval, startTimer]);
 
   return (
     <TimerBox>
@@ -97,3 +96,14 @@ export const Timer: React.FC = React.memo(() => {
     </TimerBox>
   );
 });
+
+const mapStateToProps = (state: IState) => ({
+  currentInterval: getCurrentInterval(state)
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+  decreaseInterval: () => dispatch(changeInterval(-1)),
+  increaseInterval: () => dispatch(changeInterval(1))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);

@@ -1,12 +1,16 @@
 import React from 'react';
-import { Timer }  from './containers/timer';
+import { Provider } from 'react-redux';
+import { store } from '../store';
+import Timer from './containers/timer';
 import { PageContainer } from './elements';
 
 function App() {
   return (
-    <PageContainer>
-      <Timer />
-    </PageContainer>
+    <Provider store={store}>
+      <PageContainer>
+        <Timer />
+      </PageContainer>
+    </Provider>
   );
 }
 
