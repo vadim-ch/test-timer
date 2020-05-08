@@ -14,7 +14,7 @@ const Interval: React.FC<IIntervalProps> = ({ currentInterval, increaseInterval,
   return (
     <IntervalBox>
       <IntervalTitle>Интервал обновления секундомера: <IntervalValue>{currentInterval}</IntervalValue> сек.</IntervalTitle>
-      Test 4
+      Test 5
       <ButtonGroup>
          <Button color="blue" disabled={!isDecAvailable} onClick={isDecAvailable ? decreaseInterval : undefined}>-</Button>
          <Button color="blue" onClick={increaseInterval}>+</Button>
